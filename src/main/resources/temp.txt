@@ -1,0 +1,21 @@
+── controller
+ │    ├── AuthController        -> /api/auth/register, /api/auth/login
+ │    ├── AdminController        -> /api/admin/**
+ │    └── PublicController       -> /api/public/**
+ ├── dto
+ │    ├── RegisterRequest
+ │    ├── LoginRequest
+ │    └── AuthResponse
+ ├── entity
+ │    ├── User
+ │    └── Role (enum)
+ ├── repository
+ │    └── UserRepository
+ ├── service
+ │    ├── AuthService
+ │    └── UserDetailsServiceImpl
+ ├── security
+ │    ├── JwtUtil                -> generate/validate/parse tokens
+ │    ├── JwtAuthFilter           -> intercepts requests, sets SecurityContext
+ │    └── SecurityConfig          -> filter chain, role-based rules
+ └── DemoApplication

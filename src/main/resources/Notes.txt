@@ -19,3 +19,7 @@
  │    ├── JwtAuthFilter           -> intercepts requests, sets SecurityContext
  │    └── SecurityConfig          -> filter chain, role-based rules
  └── DemoApplication
+
+
+
+ Notion link : https://www.notion.so/rahulmulik9/Spring-JWT-Simple-Demo-3c24000d761180579f26d91e2ed7aadc?source=copy_link

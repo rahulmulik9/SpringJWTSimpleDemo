@@ -1,7 +1,5 @@
 package com.rahul.SpringJWTSimpleDemo.dto;
 
-
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,11 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoginRequest {
+public class UserResponse {
 
-    @NotBlank(message = "Username is required")
+    private Long id;
     private String username;
-
-    @NotBlank(message = "Password is required")
-    private String password;
+    private String role;
 }

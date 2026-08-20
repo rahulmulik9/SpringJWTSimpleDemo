@@ -5,6 +5,8 @@ import com.rahul.SpringJWTSimpleDemo.dto.LoginRequest;
 import com.rahul.SpringJWTSimpleDemo.dto.RegisterRequest;
 import com.rahul.SpringJWTSimpleDemo.entity.Role;
 import com.rahul.SpringJWTSimpleDemo.entity.User;
+import com.rahul.SpringJWTSimpleDemo.exception.DuplicateUsernameException;
+import com.rahul.SpringJWTSimpleDemo.exception.UserNotFoundException;
 import com.rahul.SpringJWTSimpleDemo.repository.UserRepository;
 import com.rahul.SpringJWTSimpleDemo.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
@@ -22,9 +24,38 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
 
-    public AuthResponse register(RegisterRequest request) {
+    //    public String register(RegisterRequest request) {
+//        if (userRepository.existsByUsername(request.getUsername())) {
+//            throw new IllegalArgumentException("Username already taken");
+//        }
+//
+//        Role role = Role.valueOf(request.getRole().toUpperCase());
+//
+//        User user = User.builder()
+//                .username(request.getUsername())
+//                .password(passwordEncoder.encode(request.getPassword()))
+//                .role(role)
+//                .build();
+//
+//        userRepository.save(user);
+//
+//        return "User registered successfully with username: " + user.getUsername();
+//    }
+//
+//    public AuthResponse login(LoginRequest request) {
+//        authenticationManager.authenticate(
+//                new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
+//        );
+//
+//        User user = userRepository.findByUsername(request.getUsername())
+//                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+//
+//        String token = jwtUtil.generateToken(user.getUsername(), user.getRole().name());
+//        return new AuthResponse(token, user.getUsername(), user.getRole().name());
+//    }
+    public String register(RegisterRequest request) {
         if (userRepository.existsByUsername(request.getUsername())) {
-            throw new IllegalArgumentException("Username already taken");
+            throw new DuplicateUsernameException(request.getUsername());
         }
 
         Role role = Role.valueOf(request.getRole().toUpperCase());
@@ -37,8 +68,7 @@ public class AuthService {
 
         userRepository.save(user);
 
-        String token = jwtUtil.generateToken(user.getUsername(), user.getRole().name());
-        return new AuthResponse(token, user.getUsername(), user.getRole().name());
+        return "User registered successfully with username: " + user.getUsername();
     }
 
     public AuthResponse login(LoginRequest request) {
@@ -47,7 +77,7 @@ public class AuthService {
         );
 
         User user = userRepository.findByUsername(request.getUsername())
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException(request.getUsername()));
 
         String token = jwtUtil.generateToken(user.getUsername(), user.getRole().name());
         return new AuthResponse(token, user.getUsername(), user.getRole().name());

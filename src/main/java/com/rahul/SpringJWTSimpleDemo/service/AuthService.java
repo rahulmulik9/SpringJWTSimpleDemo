@@ -80,6 +80,6 @@ public class AuthService {
                 .orElseThrow(() -> new UserNotFoundException(request.getUsername()));
 
         String token = jwtUtil.generateToken(user.getUsername(), user.getRole().name());
-        return new AuthResponse(token, user.getUsername(), user.getRole().name());
+        return new AuthResponse("Login successful", token, user.getUsername(), user.getRole().name());
     }
 }
